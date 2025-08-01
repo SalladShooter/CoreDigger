@@ -9,7 +9,7 @@ class Gem(pygame.sprite.Sprite):
         self.scale = scale
         self.x = x
         self.y = y
-        self.asset_image = "assets/Gem.png"
+        self.asset_image = "assets/EnergyGem.png"
         loaded_image = pygame.image.load(self.asset_image).convert_alpha()
         self.image = pygame.transform.scale(loaded_image, (8 * self.scale, 8 * self.scale))
         self.rect = self.image.get_rect(topleft=(self.x, self.y))

@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 class Player:
-    def __init__(self, screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, depth):
+    def __init__(self, screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, upgrade, max_upgrade, depth):
         self.screen = screen
         self.scale = scale
         self.energy = energy
@@ -11,6 +11,8 @@ class Player:
         self.hearts = hearts
         self.max_hearts = hearts
         self.damage = damage
+        self.upgrade = upgrade
+        self.max_upgrade = max_upgrade
         self.depth = depth
         self.prev_direction = 0
         self.player_images_paths = [
@@ -53,7 +55,6 @@ class Player:
                 self.player_direction = 2
                 self.moving = True
                 self.generate_world = True
-                #if self.prev_y != self.rect.y:
                 self.depth += 1
             else:
                 self.moving = False

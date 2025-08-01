@@ -29,7 +29,9 @@ class Update:
                 gem.kill()
                 if hasattr(gem, "heal_value"):
                     sprite.hearts += gem.heal_value
-                if hasattr(sprite, "energy") and not hasattr(gem, "heal_value"):
+                elif hasattr(gem, "upgrade_value"):
+                    sprite.upgrade += gem.upgrade_value
+                if hasattr(sprite, "energy") and not hasattr(gem, "heal_value") and not hasattr(gem, "upgrade_value"):
                     sprite.energy += 10
                 return True
         return False

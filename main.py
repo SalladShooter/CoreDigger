@@ -10,6 +10,8 @@ max_energy = energy
 hearts = 3
 max_hearts = hearts
 damage = 1
+upgrade = 0
+max_upgrade = 10
 depth = 0
 
 pygame.init()
@@ -17,7 +19,7 @@ screen = pygame.display.set_mode((160 * scale, 128 * scale))
 clock = pygame.time.Clock()
 running = True
 
-player = Player(screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, depth)
+player = Player(screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, upgrade, max_upgrade, depth)
 world = World_Gen(screen, scale, player)
 
 while running:

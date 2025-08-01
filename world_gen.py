@@ -6,6 +6,7 @@ from wall import Wall
 from dirt import Dirt
 from gem import Gem
 from redgem import RedGem
+from greengem import GreenGem
 from text import Text
 from heart import Heart
 from energy import Energy
@@ -35,7 +36,8 @@ class World_Gen:
         self.generate_row("h", True)
         self.generate_row("/", False)
         self.generate_row("S", False)
-        for _ in range(13):
+        self.generate_row("U", False)
+        for _ in range(12):
             self.generate_row()
 
         self.add_sprites(self.world, 0, 0)
@@ -65,6 +67,12 @@ class World_Gen:
                 elif char == "g":
                     redgem = RedGem(self.screen, self.scale, x_pix, y_pix, 1)
                     self.gem_group.add(redgem)
+                elif char == "U":
+                    greengem = GreenGem(self.screen, self.scale, x_pix, y_pix, 1)
+                    if col == 0:
+                        self.ui_group.add(greengem)
+                    else:
+                        self.gem_group.add(greengem)
                 elif char == "h":
                     heart = Heart(self.screen, self.scale, x_pix, y_pix)
                     self.ui_group.add(heart)
@@ -98,6 +106,7 @@ class World_Gen:
         self.player_hearts_text = self.add_text_screen(f"*{self.player.hearts}/{self.player.max_hearts}", 8, 8)
         self.player_energy_text = self.add_text_screen(f"*{self.player.energy}/{self.player.max_energy}", 8, 16)
         self.player_damage_text = self.add_text_screen(f"*{self.player.damage}", 8, 24)
+        self.player_upgrade_text = self.add_text_screen(f"*{self.player.upgrade}/{self.player.max_upgrade}", 8, 32)
         self.update = Update()
 
     def add_text_screen(self, text, x, y):
@@ -152,7 +161,7 @@ class World_Gen:
             if col == self.path_col:
                 rand_gen += "d"
             else:
-                tile_choice = random.choices(['x', '$', 'g', 'd', 'e'], weights=[28, 6, 3, 60, 3])[0]
+                tile_choice = random.choices(['x', '$', 'g', 'U', 'd', 'e'], weights=[28, 6, 3, 3, 57, 3])[0]
 
                 if abs(col - self.path_col) == 1 and tile_choice == 'x':
                     tile_choice = 'd'
@@ -214,6 +223,12 @@ class World_Gen:
             elif char == "g":
                 redgem = RedGem(self.screen, self.scale, x_pix, y_pix, 1)
                 self.gem_group.add(redgem)
+            elif char == "U":
+                greengem = GreenGem(self.screen, self.scale, x_pix, y_pix, 1)
+                if col == 0:
+                    self.ui_group.add(greengem)
+                else:
+                    self.gem_group.add(greengem)
             elif char == "e":
                 enemy = Enemy(self.screen, self.scale, x_pix, y_pix, 1, 1)
                 enemy.move_to(x_pix / 8, y_pix / 8)
@@ -226,3 +241,4 @@ class World_Gen:
         self.player_hearts_text.change_text(f"*{self.player.hearts}/{self.player.max_hearts}")
         self.player_energy_text.change_text(f"*{self.player.energy}/{self.player.max_energy}")
         self.player_damage_text.change_text(f"*{self.player.damage}")
+        self.player_upgrade_text.change_text(f"*{self.player.upgrade}/{self.player.max_upgrade}")
