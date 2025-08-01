@@ -1,3 +1,1 @@
-# CoreDigger
-
-- added some test
+CoreDigger
