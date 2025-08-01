@@ -6,15 +6,18 @@ scale = 8
 x = 0
 y = 0
 energy = 20
+max_energy = energy
 hearts = 3
+max_hearts = hearts
 damage = 1
+depth = 0
 
 pygame.init()
-screen = pygame.display.set_mode((128 * scale, 128 * scale))
+screen = pygame.display.set_mode((160 * scale, 128 * scale))
 clock = pygame.time.Clock()
 running = True
 
-player = Player(screen, scale, x, y, energy, hearts, damage)
+player = Player(screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, depth)
 world = World_Gen(screen, scale, player)
 
 while running:
@@ -36,6 +39,9 @@ while running:
     world.render_world()
 
     pygame.display.flip()
+    if player.hearts == 0 or player.energy == 0:
+        running = False
+        pygame.quit()
 
     clock.tick(24)
 

@@ -3,12 +3,15 @@ import pygame
 pygame.init()
 
 class Player:
-    def __init__(self, screen, scale, x, y, energy, hearts, damage):
+    def __init__(self, screen, scale, x, y, energy, max_energy, hearts, max_hearts, damage, depth):
         self.screen = screen
         self.scale = scale
         self.energy = energy
+        self.max_energy = max_energy
         self.hearts = hearts
+        self.max_hearts = hearts
         self.damage = damage
+        self.depth = depth
         self.prev_direction = 0
         self.player_images_paths = [
             "assets/Player_FaceRight.png",
@@ -50,6 +53,8 @@ class Player:
                 self.player_direction = 2
                 self.moving = True
                 self.generate_world = True
+                #if self.prev_y != self.rect.y:
+                self.depth += 1
             else:
                 self.moving = False
 
@@ -59,4 +64,8 @@ class Player:
             self.moving = False
 
     def render(self):
+        if self.energy > self.max_energy:
+            self.energy = self.max_energy
+        if self.hearts > self.max_hearts:
+            self.hearts = self.max_hearts
         self.screen.blit(self.player_images[self.player_direction], self.rect.topleft)    

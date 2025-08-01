@@ -28,14 +28,14 @@ class World_Gen:
         self.enemy_group = pygame.sprite.Group()
         self.upgrade_group = pygame.sprite.Group()
 
-        self.world = ["    ############"]
+        self.world = ["        ############"]
 
-        self.path_col = random.randint(5,15)
+        self.path_col = random.randint(1,12)
         self.row_width = 12
         self.generate_row("h", True)
         self.generate_row("/", False)
         self.generate_row("S", False)
-        for _ in range(12):
+        for _ in range(13):
             self.generate_row()
 
         self.add_sprites(self.world, 0, 0)
@@ -94,8 +94,9 @@ class World_Gen:
                         self.ui_group.add(sword)
                     else:
                         self.upgrade_group.add(sword)
-        self.player_hearts_text = self.add_text_screen(f"*{self.player.hearts}", 8, 8)
-        self.player_energy_text = self.add_text_screen(f"*{self.player.energy}", 8, 16)
+        self.player_depth_text = self.add_text_screen(f"{self.player.depth}m", 0, 0)
+        self.player_hearts_text = self.add_text_screen(f"*{self.player.hearts}/{self.player.max_hearts}", 8, 8)
+        self.player_energy_text = self.add_text_screen(f"*{self.player.energy}/{self.player.max_energy}", 8, 16)
         self.player_damage_text = self.add_text_screen(f"*{self.player.damage}", 8, 24)
         self.update = Update()
 
@@ -143,7 +144,7 @@ class World_Gen:
                     rand_gen += "d"
 
             rand_gen += "#"
-            self.world.append(f"{ui_level}   #{rand_gen}")
+            self.world.append(f"{ui_level}       #{rand_gen}")
             return
 
         rand_gen = ""
@@ -151,7 +152,7 @@ class World_Gen:
             if col == self.path_col:
                 rand_gen += "d"
             else:
-                tile_choice = random.choices(['x', '$', 'g', 'd', 'e'], weights=[31, 3, 3, 60, 3])[0]
+                tile_choice = random.choices(['x', '$', 'g', 'd', 'e'], weights=[28, 6, 3, 60, 3])[0]
 
                 if abs(col - self.path_col) == 1 and tile_choice == 'x':
                     tile_choice = 'd'
@@ -159,7 +160,7 @@ class World_Gen:
                 rand_gen += tile_choice
         rand_gen += "#"
 
-        self.world.append(f"{ui_level}   #{rand_gen}")
+        self.world.append(f"{ui_level}       #{rand_gen}")
 
     def generate_world(self):
         self.player.generate_world = False
@@ -221,6 +222,7 @@ class World_Gen:
         self.update_text()
 
     def update_text(self):
-        self.player_hearts_text.change_text(f"*{self.player.hearts}")
-        self.player_energy_text.change_text(f"*{self.player.energy}")
+        self.player_depth_text.change_text(f"{self.player.depth}m")
+        self.player_hearts_text.change_text(f"*{self.player.hearts}/{self.player.max_hearts}")
+        self.player_energy_text.change_text(f"*{self.player.energy}/{self.player.max_energy}")
         self.player_damage_text.change_text(f"*{self.player.damage}")
