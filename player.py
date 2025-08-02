@@ -33,12 +33,13 @@ class Player:
         height /= 8
         self.rect = pygame.Rect(x * self.scale, y * self.scale, width, height)
         self.moving = False
+        self.can_move = True
 
     def move_to(self, x, y):
         self.rect.topleft = (x * self.scale, y * self.scale)
 
     def move(self, event):
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and self.can_move:
             dx, dy = 0, 0
             self.prev_x = self.rect.x
             self.prev_y = self.rect.y

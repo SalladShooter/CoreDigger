@@ -1,11 +1,16 @@
 import pygame
 from pygame import Surface
+from addupgrade import AddUpgrade
 
 pygame.init()
 
 class Update:
     def __init__(self):
         self.collided = None
+        self.addupgrade = AddUpgrade()
+
+    def update(self):
+        self.addupgrade.update()
 
     def check_mine(self, sprite, dirt_group):
         for dirt in dirt_group:
@@ -23,7 +28,7 @@ class Update:
                 return True
         return False
 
-    def check_gem(self, sprite, gem_group):
+    def check_gem(self, sprite, gem_group, upgrade_group, select):
         for gem in gem_group:
             if sprite.rect.colliderect(gem.rect):
                 gem.kill()
@@ -31,6 +36,10 @@ class Update:
                     sprite.hearts += gem.heal_value
                 elif hasattr(gem, "upgrade_value"):
                     sprite.upgrade += gem.upgrade_value
+                    if sprite.upgrade >= sprite.max_upgrade:
+                        select.selecting = True
+                        sprite.can_move = False
+                        self.addupgrade.new_upgrade(sprite, sprite.screen, sprite.scale, upgrade_group, select, self.addupgrade.selecting)
                 if hasattr(sprite, "energy") and not hasattr(gem, "heal_value") and not hasattr(gem, "upgrade_value"):
                     sprite.energy += 10
                 return True

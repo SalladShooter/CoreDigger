@@ -1,6 +1,7 @@
 import pygame
 from update import Update
 from player import Player
+from select_upgrade import Select_Upgrade
 from upgrade import Upgrade
 from wall import Wall
 from dirt import Dirt
@@ -20,6 +21,7 @@ class World_Gen:
         self.screen = screen
         self.scale = scale
         self.player = player
+        self.select = Select_Upgrade(self.screen, self.scale, 0, 48)
 
         self.dirt_group = pygame.sprite.Group()
         self.wall_group = pygame.sprite.Group()
@@ -118,8 +120,9 @@ class World_Gen:
         self.update.check_mine(self.player, self.dirt_group)
         self.update.check_explode(self.player, self.dirt_group)
         self.update.check_wall(self.player, self.wall_group)
-        self.update.check_gem(self.player, self.gem_group)
+        self.update.check_gem(self.player, self.gem_group, self.upgrade_group, self.select)
         self.update.check_attack(self.player, self.enemy_group)
+        self.update.update()
 
         if self.player.generate_world:
             self.generate_world()
@@ -129,6 +132,7 @@ class World_Gen:
                 enemy.kill()
             enemy.render()
         self.player.render()
+        self.select.render()
         self.wall_group.draw(self.screen)
         self.gem_group.draw(self.screen)
         self.dirt_group.draw(self.screen)
