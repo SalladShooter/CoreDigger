@@ -19,3 +19,7 @@ class Text(pygame.sprite.Sprite):
         text_surface = self.font.render(new_text, False, (255, 255, 255))
         self.image = pygame.transform.scale(text_surface, (6 * len(new_text) * self.scale, 7 * self.scale))
         self.rect = self.image.get_rect(topleft=(self.x * self.scale, self.y * self.scale))
+
+    def move_text(self, new_x, new_y):
+        self.rect.x = new_x * self.scale
+        self.rect.y = new_y * self.scale
